@@ -34,10 +34,10 @@
 
 ### Существующие запросы & ответы
 - EconomyAPI
-  - BalanceRequest
-  - TransactionRequest
-  - ChangesRequest
-  - TransfersRequest
+  - Balance
+  - Transaction
+  - Changes
+  - Transfers
  
 ### Собственный запрос & ответ
 
