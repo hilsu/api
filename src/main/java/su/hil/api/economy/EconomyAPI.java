@@ -1,6 +1,7 @@
 package su.hil.api.economy;
 
 import su.hil.api.tools.IRequestAPI;
+import su.hil.api.tools.IResponseData;
 import su.hil.api.tools.Misc;
 import su.hil.api.economy.objects.ChangeLog;
 import su.hil.api.economy.objects.Currency;
@@ -34,7 +35,7 @@ public class EconomyAPI {
         }
     }
 
-    public static class BalanceResponse {
+    public static class BalanceResponse implements IResponseData {
         protected UUID userId;
         protected String username;
         protected Map<Currency, BigDecimal> balances;
@@ -90,7 +91,7 @@ public class EconomyAPI {
         }
     }
 
-    public static class TransactionResponse {
+    public static class TransactionResponse implements IResponseData {
         protected String currency;
         protected UUID senderId;
         protected String senderName;
@@ -155,7 +156,7 @@ public class EconomyAPI {
         }
     }
 
-    public static class ChangesResponse {
+    public static class ChangesResponse implements IResponseData {
         protected UUID userId;
         protected String username;
         protected ChangeLog[] changes;
@@ -205,7 +206,7 @@ public class EconomyAPI {
         }
     }
 
-    public static class TransfersResponse {
+    public static class TransfersResponse implements IResponseData {
         UUID userId;
         String username;
         TransferLog[] transfers;

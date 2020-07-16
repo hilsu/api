@@ -27,7 +27,7 @@ public class NetClient {
         this.authorizationToken = authorizationToken;
     }
 
-    public <R, T extends IRequestAPI<R>> CompletableFuture<R> runRequest(T request) {
+    public <R extends IResponseData, T extends IRequestAPI<R>> CompletableFuture<R> runRequest(T request) {
         CompletableFuture<R> future = new CompletableFuture<>();
 
         threadPool.submit(() -> {
@@ -49,7 +49,7 @@ public class NetClient {
         this.baseURL = baseURL;
     }
 
-    protected <R, T extends IRequestAPI<R>> R sendRequest(T request) throws Exception {
+    protected <R extends IResponseData, T extends IRequestAPI<R>> R sendRequest(T request) throws Exception {
         Object data = request.getData();
         HttpURLConnection connection = (HttpURLConnection) new URL(baseURL + request.getUrl()).openConnection();
         if (data != null)
