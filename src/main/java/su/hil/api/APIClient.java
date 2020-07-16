@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class NetClient {
+public class APIClient {
     protected ExecutorService threadPool = Executors.newFixedThreadPool(4,
             r -> {
                 Thread thread = new Thread(r);
@@ -23,11 +23,19 @@ public class NetClient {
     protected String authorizationToken;
     protected String baseURL = "https://api.hil.su/v2/";
 
-    public NetClient(String authorizationToken) {
+    public APIClient(String authorizationToken) {
         this.authorizationToken = authorizationToken;
     }
 
-    public <R extends IResponseData, T extends IRequestAPI<R>> CompletableFuture<R> runRequest(T request) {
+    public APIClient() {
+        this(null);
+    }
+
+    public void setAuthorizationToken(String authorizationToken) {
+        this.authorizationToken = authorizationToken;
+    }
+
+    public <R extends IResponseMessage, T extends IRequestAPI<R>> CompletableFuture<R> runRequest(T request) {
         CompletableFuture<R> future = new CompletableFuture<>();
 
         threadPool.submit(() -> {
@@ -49,12 +57,16 @@ public class NetClient {
         this.baseURL = baseURL;
     }
 
-    protected <R extends IResponseData, T extends IRequestAPI<R>> R sendRequest(T request) throws Exception {
+    protected <R extends IResponseMessage, T extends IRequestAPI<R>> R sendRequest(T request) throws Exception {
         Object data = request.getData();
         HttpURLConnection connection = (HttpURLConnection) new URL(baseURL + request.getUrl()).openConnection();
+
         if (data != null)
             connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-        connection.setRequestProperty("Authorization", "Bearer " + authorizationToken);
+
+        if (authorizationToken != null)
+            connection.setRequestProperty("Authorization", "Bearer " + authorizationToken);
+
         connection.setDoOutput(true);
         connection.setRequestMethod(request.getMethod().name());
 
