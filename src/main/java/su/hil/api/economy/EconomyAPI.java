@@ -142,7 +142,7 @@ public class EconomyAPI {
 
         @Override
         public String getUrl() {
-            return Misc.formatQueryURL("economy/changes", "currency", currency, "limit", limit, "offset", offset);
+            return Misc.formatQueryURL("economy/changes", "currency", currency, "limit", limit, "offset", offset, "currency", currency);
         }
 
         @Override
@@ -192,7 +192,7 @@ public class EconomyAPI {
 
         @Override
         public String getUrl() {
-            return Misc.formatQueryURL("economy/transfers", "limit", limit, "offset", offset);
+            return Misc.formatQueryURL("economy/transfers", "limit", limit, "offset", offset, "currency", currency);
         }
 
         @Override
@@ -221,6 +221,78 @@ public class EconomyAPI {
 
         public TransferLog[] getTransfers() {
             return transfers;
+        }
+    }
+
+    public static class TransfersCountRequest implements IRequestAPI<TransfersCountResponse> {
+        protected Currency currency;
+
+        public TransfersCountRequest(Currency currency) {
+            this.currency = currency;
+        }
+
+        @Override
+        public Class<TransfersCountResponse> getResponseClass() {
+            return TransfersCountResponse.class;
+        }
+
+        @Override
+        public String getUrl() {
+            return Misc.formatQueryURL("economy/transfersCount", "currency", currency);
+        }
+
+        @Override
+        public RequestMethod getMethod() {
+            return RequestMethod.GET;
+        }
+
+        @Override
+        public Object getData() {
+            return null;
+        }
+    }
+
+    public static class TransfersCountResponse implements IResponseMessage {
+        long count;
+
+        public long getCount() {
+            return count;
+        }
+    }
+
+    public static class ChangesCountRequest implements IRequestAPI<ChangesCountResponse> {
+        protected Currency currency;
+
+        public ChangesCountRequest(Currency currency) {
+            this.currency = currency;
+        }
+
+        @Override
+        public Class<ChangesCountResponse> getResponseClass() {
+            return ChangesCountResponse.class;
+        }
+
+        @Override
+        public String getUrl() {
+            return Misc.formatQueryURL("economy/changesCount", "currency", currency);
+        }
+
+        @Override
+        public RequestMethod getMethod() {
+            return RequestMethod.GET;
+        }
+
+        @Override
+        public Object getData() {
+            return null;
+        }
+    }
+
+    public static class ChangesCountResponse implements IResponseMessage {
+        long count;
+
+        public long getCount() {
+            return count;
         }
     }
 

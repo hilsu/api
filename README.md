@@ -41,7 +41,8 @@
   - Transaction
   - Changes
   - Transfers
-  
+  - TransfersCount
+  - ChangesCount
 - AuthAPI
   - Auth
   
