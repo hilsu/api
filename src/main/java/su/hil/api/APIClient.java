@@ -20,19 +20,39 @@ public class APIClient {
                 return thread;
             });
 
-    protected String authorizationToken;
+    protected String authorizationData;
     protected String baseURL = "https://api.hil.su/v2/";
+    protected int connectTimeout = 1000;
+    protected int readTimeout = 1000;
 
     public APIClient(String authorizationToken) {
-        this.authorizationToken = authorizationToken;
+        setAuthorizationToken(authorizationToken);
     }
 
     public APIClient() {
         this(null);
     }
 
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
+
+    public void setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
+    }
+
+    public void setAuthorizationData(String data){
+        authorizationData = data;
+    }
+
     public void setAuthorizationToken(String authorizationToken) {
-        this.authorizationToken = authorizationToken;
+        if (authorizationToken == null || authorizationToken.isEmpty()){
+            setAuthorizationData(null);
+
+            return;
+        }
+
+        setAuthorizationData("Bearer " + authorizationToken);
     }
 
     public <R extends IResponseMessage, T extends IRequestAPI<R>> CompletableFuture<R> runRequest(T request) {
@@ -64,10 +84,12 @@ public class APIClient {
         if (data != null)
             connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 
-        if (authorizationToken != null)
-            connection.setRequestProperty("Authorization", "Bearer " + authorizationToken);
+        if (authorizationData != null)
+            connection.setRequestProperty("Authorization", authorizationData);
 
         connection.setDoOutput(true);
+        connection.setConnectTimeout(connectTimeout);
+        connection.setReadTimeout(readTimeout);
         connection.setRequestMethod(request.getMethod().name());
 
         if (data != null) {
