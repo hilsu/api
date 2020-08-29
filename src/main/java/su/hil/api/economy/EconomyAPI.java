@@ -14,6 +14,19 @@ import java.util.UUID;
 
 public class EconomyAPI {
     public static class BalanceRequest implements IRequestAPI<BalanceResponse> {
+        protected UUID userId;
+        protected String username;
+
+        public void setUser(UUID userId) {
+            this.userId = userId;
+            username = null;
+        }
+
+        public void setUser(String username){
+            this.username = username;
+            userId = null;
+        }
+
         @Override
         public Class<BalanceResponse> getResponseClass() {
             return BalanceResponse.class;
@@ -21,7 +34,12 @@ public class EconomyAPI {
 
         @Override
         public String getUrl() {
-            return "economy/balance";
+            if (userId == null && username == null)
+                return "economy/balance";
+
+            return userId != null ?
+                    Misc.formatQueryURL("economy/balance", "userId", userId) :
+                    Misc.formatQueryURL("economy/balance", "username", username);
         }
 
         @Override
@@ -58,6 +76,8 @@ public class EconomyAPI {
         protected String targetName;
         protected BigDecimal amount;
         protected String description;
+        protected UUID senderId;
+        protected String senderName;
 
         public TransactionRequest(Currency currency, String targetName, BigDecimal amount, String description) {
             this.currency = currency;
@@ -68,6 +88,16 @@ public class EconomyAPI {
 
         public TransactionRequest(String targetName, BigDecimal amount) {
             this(Currency.COINS, targetName, amount, null);
+        }
+
+        public void setSenderUser(UUID userId) {
+            this.senderId = userId;
+            senderName = null;
+        }
+
+        public void setSenderUser(String username){
+            this.senderName = username;
+            senderId = null;
         }
 
         @Override
@@ -293,6 +323,53 @@ public class EconomyAPI {
 
         public long getCount() {
             return count;
+        }
+    }
+
+    public static class ChangeRequest implements IRequestAPI<ChangeResponse> {
+        protected Currency currency;
+        protected BigDecimal amount;
+        protected UUID targetId;
+        protected String targetName;
+
+        public ChangeRequest(Currency currency, BigDecimal amount, UUID targetId) {
+            this.currency = currency;
+            this.amount = amount;
+            this.targetId = targetId;
+        }
+
+        public ChangeRequest(Currency currency, BigDecimal amount, String targetName) {
+            this.currency = currency;
+            this.amount = amount;
+            this.targetName = targetName;
+        }
+
+        @Override
+        public Class<ChangeResponse> getResponseClass() {
+            return ChangeResponse.class;
+        }
+
+        @Override
+        public String getUrl() {
+            return "economy/change";
+        }
+
+        @Override
+        public RequestMethod getMethod() {
+            return RequestMethod.POST;
+        }
+
+        @Override
+        public Object getData() {
+            return this;
+        }
+    }
+
+    public static class ChangeResponse implements IResponseMessage {
+        BigDecimal balance;
+
+        public BigDecimal getBalance() {
+            return balance;
         }
     }
 
