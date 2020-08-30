@@ -127,7 +127,7 @@ public class EconomyAPI {
         protected String senderName;
         protected UUID targetId;
         protected String targetName;
-        protected String balance;
+        protected BigDecimal balance;
 
         public String getCurrency() {
             return currency;
@@ -149,7 +149,7 @@ public class EconomyAPI {
             return targetName;
         }
 
-        public String getBalance() {
+        public BigDecimal getBalance() {
             return balance;
         }
     }
