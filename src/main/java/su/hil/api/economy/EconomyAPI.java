@@ -9,6 +9,7 @@ import su.hil.api.economy.objects.TransferLog;
 import su.hil.api.tools.RequestMethod;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -370,6 +371,42 @@ public class EconomyAPI {
 
         public BigDecimal getBalance() {
             return balance;
+        }
+    }
+
+    public static class BatchChangeRequest implements IRequestAPI<BatchChangeResponse> {
+        protected ChangeRequest[] changeRequests;
+
+        public BatchChangeRequest(ChangeRequest[] changeRequests) {
+            this.changeRequests = changeRequests;
+        }
+
+        @Override
+        public Class<BatchChangeResponse> getResponseClass() {
+            return BatchChangeResponse.class;
+        }
+
+        @Override
+        public String getUrl() {
+            return "economy/batchChange";
+        }
+
+        @Override
+        public RequestMethod getMethod() {
+            return RequestMethod.POST;
+        }
+
+        @Override
+        public Object getData() {
+            return this;
+        }
+    }
+
+    public static class BatchChangeResponse implements IResponseMessage {
+        protected ChangeResponse[] responses;
+
+        public ChangeResponse[] getResponses() {
+            return responses;
         }
     }
 
