@@ -375,10 +375,10 @@ public class EconomyAPI {
     }
 
     public static class BatchChangeRequest implements IRequestAPI<BatchChangeResponse> {
-        protected ChangeRequest[] changeRequests;
+        protected ChangeRequest[] changes;
 
         public BatchChangeRequest(ChangeRequest[] changeRequests) {
-            this.changeRequests = changeRequests;
+            this.changes = changeRequests;
         }
 
         @Override
