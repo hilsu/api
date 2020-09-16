@@ -9,9 +9,36 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java/']
+        }
+    }
+
+    chat {
+        java {
+            srcDirs = ['src/chat/java/']
+        }
+    }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'com.google.code.gson:gson:2.8.6'
+    chatImplementation 'com.google.code.gson:gson:2.8.6'
+    chatCompile group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.4.0'
 }
+
+task chatLibJar(type: Jar) {
+    from sourceSets.chat.output
+    from configurations.chatCompile.collect { it.directory ? it : zipTree(it) }
+    classifier = 'Chat'
+}
+build.dependsOn(chatLibJar)
