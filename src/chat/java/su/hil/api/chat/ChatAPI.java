@@ -10,27 +10,27 @@ public class ChatAPI {
         }
     }
 
-    public static class SendRequestRequest extends ClientRequest {
+    public static class SendMessageRequest extends ClientRequest {
         protected String text;
         protected Long replyTo;
         protected String acknowledgement;
 
-        public SendRequestRequest(String text, Long replyTo, String acknowledgement) {
+        public SendMessageRequest(String text, Long replyTo, String acknowledgement) {
             this.type = "sendMessage";
             this.text = text;
             this.replyTo = replyTo;
             this.acknowledgement = acknowledgement;
         }
 
-        public SendRequestRequest(String text, Long replyTo) {
+        public SendMessageRequest(String text, Long replyTo) {
             this(text, replyTo, null);
         }
 
-        public SendRequestRequest(String text, String acknowledgement) {
+        public SendMessageRequest(String text, String acknowledgement) {
             this(text, null, acknowledgement);
         }
 
-        public SendRequestRequest(String text) {
+        public SendMessageRequest(String text) {
             this(text, null, null);
         }
     }

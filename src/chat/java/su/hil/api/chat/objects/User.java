@@ -13,7 +13,7 @@ public class User {
     protected boolean isMe;
 
     // telegram user
-    protected String fistName;
+    protected String firstName;
     protected String lastName;
 
     // hidden telegram user
@@ -43,8 +43,8 @@ public class User {
         return isMe;
     }
 
-    public String getFistName() {
-        return fistName;
+    public String getFirstName() {
+        return firstName;
     }
 
     public String getLastName() {
@@ -64,7 +64,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", rank=" + rank +
                 ", isMe=" + isMe +
-                ", fistName='" + fistName + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", name='" + name + '\'' +
                 '}';
