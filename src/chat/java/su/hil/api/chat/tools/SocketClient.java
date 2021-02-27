@@ -4,7 +4,9 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import su.hil.api.chat.ChatClient;
 
+import javax.net.ssl.SSLContext;
 import java.net.URI;
+import java.security.NoSuchAlgorithmException;
 
 public class SocketClient extends WebSocketClient {
     ChatClient chatClient;
@@ -12,6 +14,12 @@ public class SocketClient extends WebSocketClient {
     public SocketClient(URI serverUri, ChatClient chatClient) {
         super(serverUri);
         this.chatClient = chatClient;
+
+        try {
+            setSocketFactory(SSLContext.getDefault().getSocketFactory());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
