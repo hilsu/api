@@ -5,6 +5,7 @@ public class Attachment {
     protected Kind kind;
     protected long primaryId;
     protected String downloadToken;
+    protected StickerInfo sticker;
     protected AttachmentMeta meta;
 
     public long getId() {
@@ -21,6 +22,10 @@ public class Attachment {
 
     public String getDownloadToken() {
         return downloadToken;
+    }
+
+    public StickerInfo getStickerInfo() {
+        return sticker;
     }
 
     public AttachmentMeta getMeta() {
