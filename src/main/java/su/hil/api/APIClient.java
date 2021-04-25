@@ -1,6 +1,8 @@
 package su.hil.api;
 
 import su.hil.api.tools.*;
+import su.hil.api.tools.credentials.Credentials;
+
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -19,13 +21,13 @@ public class APIClient {
                 return thread;
             });
 
-    protected String authorizationData;
+    protected Credentials credentials;
     protected String baseURL = "https://api.hil.su/v2/";
     protected int connectTimeout = 1000;
     protected int readTimeout = 1000;
 
-    public APIClient(String authorizationToken) {
-        setAuthorizationToken(authorizationToken);
+    public APIClient(Credentials credentials) {
+        setCredentials(credentials);
     }
 
     public APIClient() {
@@ -40,18 +42,8 @@ public class APIClient {
         this.readTimeout = readTimeout;
     }
 
-    public void setAuthorizationData(String data){
-        authorizationData = data;
-    }
-
-    public void setAuthorizationToken(String authorizationToken) {
-        if (authorizationToken == null || authorizationToken.isEmpty()){
-            setAuthorizationData(null);
-
-            return;
-        }
-
-        setAuthorizationData("Bearer " + authorizationToken);
+    public void setCredentials(Credentials credentials){
+        this.credentials = credentials;
     }
 
     public <R extends IResponseMessage, T extends IRequestAPI<R>> CompletableFuture<R> runRequest(T request) {
@@ -83,8 +75,8 @@ public class APIClient {
         if (data != null)
             connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 
-        if (authorizationData != null)
-            connection.setRequestProperty("Authorization", authorizationData);
+        if (credentials != null)
+            connection.setRequestProperty("Authorization", credentials.toAuthorizationHeader());
 
         connection.setDoOutput(true);
         connection.setConnectTimeout(connectTimeout);
