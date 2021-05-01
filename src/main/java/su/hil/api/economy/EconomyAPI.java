@@ -1,5 +1,6 @@
 package su.hil.api.economy;
 
+import su.hil.api.economy.objects.TopEntry;
 import su.hil.api.tools.IRequestAPI;
 import su.hil.api.tools.IResponseMessage;
 import su.hil.api.tools.Misc;
@@ -407,6 +408,42 @@ public class EconomyAPI {
 
         public ChangeResponse[] getResponses() {
             return responses;
+        }
+    }
+
+    public static class TopRequest implements IRequestAPI<TopResponse> {
+        protected Currency currency;
+
+        public TopRequest(Currency currency) {
+            this.currency = currency;
+        }
+
+        @Override
+        public Class<TopResponse> getResponseClass() {
+            return TopResponse.class;
+        }
+
+        @Override
+        public String getUrl() {
+            return Misc.formatQueryURL("economy/top", "currency", currency);
+        }
+
+        @Override
+        public RequestMethod getMethod() {
+            return RequestMethod.GET;
+        }
+
+        @Override
+        public Object getData() {
+            return null;
+        }
+    }
+
+    public static class TopResponse implements IResponseMessage {
+        protected TopEntry[] users;
+
+        public TopEntry[] getUsers() {
+            return users;
         }
     }
 
