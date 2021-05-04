@@ -369,9 +369,24 @@ public class EconomyAPI {
 
     public static class ChangeResponse implements IResponseMessage {
         BigDecimal balance;
+        Currency currency;
+        UUID targetId;
+        String targetName;
 
         public BigDecimal getBalance() {
             return balance;
+        }
+
+        public Currency getCurrency() {
+            return currency;
+        }
+
+        public UUID getTargetId() {
+            return targetId;
+        }
+
+        public String getTargetName() {
+            return targetName;
         }
     }
 
