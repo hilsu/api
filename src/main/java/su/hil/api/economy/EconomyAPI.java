@@ -1,12 +1,9 @@
 package su.hil.api.economy;
 
-import su.hil.api.economy.objects.TopEntry;
+import su.hil.api.economy.objects.*;
 import su.hil.api.tools.IRequestAPI;
 import su.hil.api.tools.IResponseMessage;
 import su.hil.api.tools.Misc;
-import su.hil.api.economy.objects.ChangeLog;
-import su.hil.api.economy.objects.Currency;
-import su.hil.api.economy.objects.TransferLog;
 import su.hil.api.tools.RequestMethod;
 
 import java.math.BigDecimal;
@@ -59,6 +56,7 @@ public class EconomyAPI {
         protected UUID userId;
         protected String username;
         protected Map<Currency, BigDecimal> balances;
+        protected User user;
 
         public UUID getUserId() {
             return userId;
@@ -70,6 +68,10 @@ public class EconomyAPI {
 
         public Map<Currency, BigDecimal> getBalances() {
             return balances;
+        }
+
+        public User getUser() {
+            return user;
         }
     }
 
