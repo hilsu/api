@@ -5,11 +5,16 @@ import java.time.Instant;
 import java.util.UUID;
 
 public class TransferLog {
+    protected int id;
     protected UUID peerId;
     protected String peerName;
     protected BigDecimal delta;
     protected String comment;
     protected Instant time;
+
+    public int getId() {
+        return id;
+    }
 
     public UUID getPeerId() {
         return peerId;

@@ -90,7 +90,7 @@ public class APIClient {
         }
 
         InputStreamReader reader = new InputStreamReader(
-                connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream(),
+                !isError(connection.getResponseCode()) ? connection.getInputStream() : connection.getErrorStream(),
                 StandardCharsets.UTF_8
         );
 
@@ -111,4 +111,9 @@ public class APIClient {
 
         throw new HilAPIException(response);
     }
+
+    protected boolean isError(int code){
+        return code < 200 || code >= 300;
+    }
+
 }

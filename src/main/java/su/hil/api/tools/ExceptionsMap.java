@@ -4,6 +4,7 @@ import su.hil.api.economy.exceptions.InsufficientFundsAPIException;
 import su.hil.api.economy.exceptions.InvalidAmountAPIException;
 import su.hil.api.economy.exceptions.InvalidUserAPIException;
 import su.hil.api.economy.exceptions.UserNotFoundAPIException;
+import su.hil.api.items.exceptions.NoUsesLeftAPIException;
 
 import java.util.HashMap;
 
@@ -16,6 +17,8 @@ public class ExceptionsMap {
         exceptions.put("economy.invalidUser", InvalidUserAPIException.class);
         exceptions.put("economy.invalidAmount", InvalidAmountAPIException.class);
         exceptions.put("economy.insufficientFunds", InsufficientFundsAPIException.class);
+
+        exceptions.put("registeredItems.noUsesLeft", NoUsesLeftAPIException.class);
     }
 
 }
